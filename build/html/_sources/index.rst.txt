@@ -3,17 +3,17 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to genecloudblog's documentation!
+吉云文档
 =========================================
 
 .. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+    :maxdepth: 2
+    :caption: Contents:
 
-
-
-Indices and tables
-==================
+    流程说明文档/index
+    多组学平台说明文档/index
+    小工具说明文档/index
+    about
 
 * :ref:`genindex`
 * :ref:`modindex`
