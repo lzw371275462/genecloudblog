@@ -1,10 +1,9 @@
-流程说明文档 
+多组学平台说明文档 
 =================================
  
  .. toctree::
-        :maxdepth: 1
+            :maxdepth: 1
 
-    DNA/contents
-    RNA/contents
-    SingleCell/contents
+    SingleCellPlatform/contents
+    RNAPlatform/contents
 

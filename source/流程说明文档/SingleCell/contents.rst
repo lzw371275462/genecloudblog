@@ -1,4 +1,0 @@
-SingleCell
-===========
-
-hello, SingleCell world!

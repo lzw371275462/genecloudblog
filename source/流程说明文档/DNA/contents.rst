@@ -1,4 +1,0 @@
-DNA
-==========
-
-hello, DNA world!
