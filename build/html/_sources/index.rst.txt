@@ -10,10 +10,12 @@
     :maxdepth: 2
     :caption: Contents:
 
-    流程说明文档/index
-    多组学平台说明文档/index
-    小工具说明文档/index
-    about
+    多组学平台补充文档/index
+    吉云流程补充文档/index
+    小工具补充文档/index
+    个性化分析补充文档/index
+    知识共享文档/index
+    关于我们/index
 
 * :ref:`genindex`
 * :ref:`modindex`

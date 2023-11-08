@@ -22,8 +22,8 @@
 import sphinx_rtd_theme
 
 project = 'genecloudblog'
-copyright = '2023, luozw'
-author = 'luozw'
+copyright = '2023, gene+ genecloud'
+author = 'gene+ genecloud'
 
 # The short X.Y version
 version = ''
@@ -135,7 +135,7 @@ latex_elements = {
 #  author, documentclass [howto, manual, or own class]).
 latex_documents = [
     (master_doc, 'genecloudblog.tex', 'genecloudblog Documentation',
-     'luozw', 'manual'),
+     'gene+ genecloud', 'manual'),
 ]
 
 
