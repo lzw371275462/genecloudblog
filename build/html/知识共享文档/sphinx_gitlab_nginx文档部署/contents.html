@@ -160,28 +160,36 @@
   <div class="section" id="sphinx-gitlab-nginx">
 <h1>5.1 sphinx_gitlab_nginx文档部署<a class="headerlink" href="#sphinx-gitlab-nginx" title="永久链接至标题">¶</a></h1>
 <blockquote>
-<div>文档更新仅需要参考前4个步骤，第5步骤为一次性部署，本项目已部署完成。</div></blockquote>
+<div>文档更新仅需要参考前3个步骤，第4,6步骤为一次性部署(本项目已部署完成)，第5步骤已设置为本地服务节点自动rebuild更新，每分钟更新一次，所以每次更新push推送后，一分钟之后线上文档即会自动更新。</div></blockquote>
 <dl class="docutils">
 <dt>step1) 创建gitlab项目,并clone到本地,比如深圳terminal;</dt>
 <dd><p class="first">已创建git项目地址：<a class="reference external" href="http://10.0.1.111:9527/lzw/genecloudblog">http://10.0.1.111:9527/lzw/genecloudblog</a></p>
-<p class="last">git clone <a class="reference external" href="mailto:git&#37;&#52;&#48;10&#46;0&#46;1&#46;111">git<span>&#64;</span>10<span>&#46;</span>0<span>&#46;</span>1<span>&#46;</span>111</a>:lzw/genecloudblog.git</p>
+<p>git clone <a class="reference external" href="mailto:git&#37;&#52;&#48;10&#46;0&#46;1&#46;111">git<span>&#64;</span>10<span>&#46;</span>0<span>&#46;</span>1<span>&#46;</span>111</a>:lzw/genecloudblog.git</p>
+<p class="last">git checkout master</p>
 </dd>
 <dt>step2) 进入项目可编辑文档目录,编写或者升级文档.rst|.md文件;</dt>
 <dd><p class="first">cd ./genecloudblog/source/</p>
-<p class="last">学习熟悉rst语法或者markdown语法，编辑相关.rst和.md 文件</p>
+<p>学习熟悉rst语法或者markdown语法，编辑相关.rst和.md 文件</p>
+<p class="last">注意：如果新增目录，一定要编辑对应的 index.rst 文件</p>
 </dd>
-<dt>step3) 拉取sphinx镜像;</dt>
+<dt>step3) push本地仓库到远程仓库，等待同步：</dt>
+<dd><p class="first">git add .</p>
+<p>git commit -a -m “update XXX doc”</p>
+<p>git pull origin master</p>
+<p class="last">git push origin master</p>
+</dd>
+<dt>step4) 拉取sphinx镜像;</dt>
 <dd>podman pull 本地镜像：172.16.50.43/toolkit/blog_sphinx:v0.7.1</dd>
-<dt>step4) rebuild 项目内容;</dt>
+<dt>step5) rebuild 项目内容;</dt>
 <dd><p class="first">podman run -it -v <cite>pwd</cite>:<cite>pwd</cite> 172.16.50.43/toolkit/blog_sphinx:v0.7.1</p>
 <p>cd ./genecloudblog/</p>
 <p class="last">/bin/bash rebuild.sh</p>
 </dd>
-<dt>step5) 用nginx 部署本地服务;</dt>
+<dt>step6) 用nginx 部署本地服务;</dt>
 <dd><p class="first">修改配置：nginx.conf中的location/root项修改为监听路径即可，比如`pwd`/genecloudblog/build/html/</p>
 <p class="last">启动nginx服务：/usr/local/nginx/sbin/nginx</p>
 </dd>
-<dt>step6) 部署完成，可访问在线文档;</dt>
+<dt>step7) 部署完成，可访问在线文档;</dt>
 <dd>在线文档IP：<a class="reference external" href="http://172.16.10.11/">http://172.16.10.11/</a></dd>
 </dl>
 <p>参考文档博客1：<a class="reference external" href="https://zhuanlan.zhihu.com/p/264647009">https://zhuanlan.zhihu.com/p/264647009</a></p>

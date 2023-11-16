@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>2.1 DNA &mdash; genecloudblog v0.0.1 文档</title>
+  <title>2.1 流程部署须知 &mdash; genecloudblog v0.0.1 文档</title>
   
 
   
@@ -82,7 +82,10 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../../多组学平台补充文档/index.html">1. 多组学平台说明文档</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">2. 吉云流程补充文档</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">2.1 DNA</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">2.1 流程部署须知</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id2">1. 参数类型</a></li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../RNA/contents.html">2.2 RNA</a></li>
 </ul>
 </li>
@@ -137,13 +140,13 @@
         
           <li><a href="../index.html">2. 吉云流程补充文档</a> &raquo;</li>
         
-      <li>2.1 DNA</li>
+      <li>2.1 流程部署须知</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../_sources/吉云流程补充文档/DNA/contents.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/吉云流程补充文档/流程部署/contents.md.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -156,9 +159,34 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="dna">
-<h1>2.1 DNA<a class="headerlink" href="#dna" title="永久链接至标题">¶</a></h1>
-<p>危楼高百尺，手可摘星辰。</p>
+  <div class="section" id="id1">
+<h1>2.1 流程部署须知<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<div class="section" id="id2">
+<h2>1. 参数类型<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h2>
+<p>  流程部署中需要选择各种参数类型，其中包括:样本清单, 样本分组, 对比分组, 组合文件, 文件, 数字, 文本, 单选等, 各类型说明如下：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>1. 样本清单: 标准格式的fq配置格式，不做赘述
+    python 传参机制： python {check.py}  -i {样本清单}
+
+2. 样本分组: 单个分组，比如：groupA	Sam1,Sam2,Sam3
+    python 传参机制： python {check.py}  -i {样本清单},{样本分组} 
+	
+3. 对比分组: 多个对比分组，比如：Case	Sam1,Sam2,Sam3	Control	Sam4,Sam5,Sam6
+    python 传参机制： python {check.py}  -i {样本清单},{对比分组} 
+	
+4. 组合文件:  没有固定格式，可将excel 转成txt
+    python 传参机制： python {check.py}  -i {样本清单},{组合文件} 
+
+5. 文件：普通txt文件，不做任何检查，用户传什么就是什么
+
+6. 数字：整数，好像不支持小数，小数请改成文本
+
+7. 文本: 所有字符串都可以
+
+8. 单选: 设置多个可选项，只能从中选择一个
+</pre></div>
+</div>
+<p>  注意：样本分组|对比分组|组合文件 都是分别和样本清单捆绑的，所以每个检查脚本的输入不会超过两个。</p>
+</div>
 </div>
 
 

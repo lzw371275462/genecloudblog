@@ -86,7 +86,33 @@
 <li class="toctree-l1"><a class="reference internal" href="../../个性化分析补充文档/index.html">4. 个性化分析补充文档</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">5. 知识共享文档</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../sphinx_gitlab_nginx文档部署/contents.html">5.1 sphinx_gitlab_nginx文档部署</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">5.2 模式和非模式物种的富集分析</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">5.2 模式和非模式物种的富集分析</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#go">1. GO富集分析</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">1.1 模式物种的GO富集分析</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id3">1.2 非模式物种的GO富集分析</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#kegg">2. KEGG富集分析</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#keggg">2.1 模式物种的KEGGG富集分析</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id4">2.2 非模式物种的kegg富集分析</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id5">3. 脚本管理与处理示例</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id6">3.1 代码管理</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id7">3.2 目录说明</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id8">3.3 示例说明</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#id9">4. 其它补充知识</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#go-term">4.1 GO term信息查询</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#kegg-pathway">4.2 kegg pathway信息查询</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#go2term">4.3 GO2TERM最全对应关系表下载</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#id10">4.4 kegg 已知物种下载</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#pathway2term">4.5 PATHWAY2TERM 最全对应关系表下载</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l2"><a class="reference internal" href="../quarto编写html报告/contents.html">5.3 quarto编写html报告</a></li>
 </ul>
 </li>
@@ -144,7 +170,7 @@
       <li class="wy-breadcrumbs-aside">
         
             
-            <a href="../../_sources/知识共享文档/模式和非模式物种的富集分析/contents.rst.txt" rel="nofollow"> View page source</a>
+            <a href="../../_sources/知识共享文档/模式和非模式物种的富集分析/contents.md.txt" rel="nofollow"> View page source</a>
           
         
       </li>
@@ -159,7 +185,495 @@
             
   <div class="section" id="id1">
 <h1>5.2 模式和非模式物种的富集分析<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
-<p>野火烧不尽，春风吹又生。</p>
+<div class="section" id="go">
+<h2>1. GO富集分析<a class="headerlink" href="#go" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id2">
+<h3>1.1 模式物种的GO富集分析<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h3>
+<p>  大部分模式物种在Bioconductor库可以查询到对应的orgdb。orgdb数据库本质是一个R包，library(org.Hs.tair.db)加载后才能使用。</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>在https://bioconductor.org/packages/release/BiocViews.html 搜索OrgDb，当前已有19个模式生物orgdb。
+1	org.Hs.eg.db	 Human	3
+2	org.Mm.eg.db	 Mouse	5
+3	org.Rn.eg.db	 Rat	15
+4	org.Dm.eg.db	 Fly	23
+5	org.At.tair.db	 Arabidopsis	32
+6	org.Dr.eg.db	 Zebrafish	33
+7	org.Sc.sgd.db	 Yeast	39
+8	org.Ce.eg.db	 Worm	45
+9	org.Bt.eg.db	 Bovine	48
+10	org.Gg.eg.db	 Chicken	49
+11	org.Ss.eg.db	 Pig	55
+12	org.Mmu.eg.db	 Rhesus	56
+13	org.Cf.eg.db	 Canine	61
+14	org.EcK12.eg.db	 E coli strain K12	70
+15	org.Xl.eg.db	 Xenopus	74
+16	org.Pt.eg.db	 Chimp	88
+17	org.Ag.eg.db	 Anopheles	90
+18	org.EcSakai.eg.db	 E coli strain Sakai	109
+19	org.Mxanthus.db	 Myxococcus xanthus DK 1622	272
+</pre></div>
+</div>
+</div>
+<div class="section" id="id3">
+<h3>1.2 非模式物种的GO富集分析<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h3>
+<div class="section" id="annotationhuborgdb">
+<h4>1.2.1 AnnotationHub上查询可用orgdb<a class="headerlink" href="#annotationhuborgdb" title="永久链接至标题">¶</a></h4>
+<p>  对于不能在Bioconductor库查询到orgdb的物种，优先在AnnotationHub上查询是否有在线注释可以创建OrgDb对象，例如：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>镜像：172.16.50.43/lt/enrich:1.1
+library(AnnotationHub)
+hub &lt;- AnnotationHub()
+query(hub, &quot;Oryza_sativa&quot;)
+Oryza_sativa &lt;- hub[[&#39;AH101068&#39;]]
+#AnnotationHub with 5 records
+# snapshotDate(): 2022-04-25
+# $dataprovider: ftp://ftp.ncbi.nlm.nih.gov/gene/DATA/, WikiPathways, Inpara...
+# $species: Oryza sativa, Oryza sativa_subsp._japonica, Oryza sativa_Japonic...
+# $rdataclass: OrgDb, Tibble, Inparanoid8Db
+# additional mcols(): taxonomyid, genome, description,
+# coordinate_1_based, maintainer, rdatadateadded, preparerclass, tags,
+# rdatapath, sourceurl, sourcetype 
+# retrieve records with, e.g., &#39;object[[&quot;AH10561&quot;]]&#39;                                          
+  AH10561  | hom.Oryza_sativa.inp8.sqlite                        
+  AH91809  | wikipathways_Oryza_sativa_metabolites.rda           
+  AH101066 | org.Oryza_sativa_(japonica_cultivar-group).eg.sqlite
+  AH101067 | org.Oryza_sativa_Japonica_Group.eg.sqlite           
+  AH101068 | org.Oryza_sativa_subsp._japonica.eg.sqlite 
+
+library(AnnotationDbi)
+saveDb(Oryza_sativa,file=&quot;Oryza_sativa.sqlite&quot;) 	#把Cgriseus对象保存成Cgriseus.sqlite文件
+Oryza_sativa&lt;-loadDb(file=&quot;Oryza_sativa.sqlite&quot;) 	#载入Cgriseus.sqlite文件，保存到Cgriseus
+
+&gt; columns(sqlite)
+[1] &quot;ACCNUM&quot; &quot;ALIAS&quot; &quot;ENSEMBL&quot; &quot;ENSEMBLPROT&quot;
+[5] &quot;ENSEMBLTRANS&quot; &quot;ENTREZID&quot; &quot;ENZYME&quot; &quot;EVIDENCE&quot;
+[9] &quot;EVIDENCEALL&quot; &quot;GENENAME&quot; &quot;GENETYPE&quot; &quot;GO&quot;
+[13] &quot;GOALL&quot; &quot;IPI&quot; &quot;MAP&quot; &quot;OMIM&quot;
+[17] &quot;ONTOLOGY&quot; &quot;ONTOLOGYALL&quot; &quot;PATH&quot; &quot;PFAM&quot;
+[21] &quot;PMID&quot; &quot;PROSITE&quot; &quot;REFSEQ&quot; &quot;SYMBOL&quot;
+[25] &quot;UCSCKG&quot; &quot;UNIPROT&quot;
+</pre></div>
+</div>
+</div>
+<div class="section" id="eggnog-mapperorgdb">
+<h4>1.2.2 eggnog-mapper比对自构建orgdb<a class="headerlink" href="#eggnog-mapperorgdb" title="永久链接至标题">¶</a></h4>
+<p>  如果也查询不到可以orgdb，则可选择利用eggnog-mapper来进行近缘比对，直接用enricher进行富集分析，例如：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>###在线比对：
+在线工具：http://eggnog-mapper.embl.de/ 
+1.选择本地输入文件，蛋白序列或者cds序列，一般可以NCBI直接下载；
+2.给定一个邮箱地址；
+3.点击 Start；
+4.等待文件上传，等待弹出页面，检查邮箱，点击Click to manage your job；
+5.等待新窗口中任务完成，检查邮箱，点击Access your job files here；
+
+###离线比对
+软件下载：github：https://github.com/eggnogdb/eggnog-mapper 
+软件安装：pip install eggnog-mapper  
+下载EggNOG数据库：http://eggnog5.embl.de/download/ 
+重点是（emapperdb-5.0,2中的eggnog.db.gz，eggnog_proteins.dmnd.gz 这两个文件，放到/soft/eggnog-mapper/data/ 目录中）
+运行命令：emapper.py -i mm39.pep.fa -o mm39 -d euk --cpu 10 -dbmem
+-i	 	蛋白组序列文件
+-o	 	输出前缀，自动补充.emapper.annotations
+-dbmem	把全部数据库存入内存，提高运行效率
+--tax_scope: （物种选择，可查看eggnogmapper/annotation/tax_scopes）Chordata（脊椎动物），Viridiplantae（绿色植物）等。
+
+###结果解释：
+mm39.emapper.hmm_hits
+mm39.emapper.seed_orthologs
+mm39.emapper.annotations：最终的注释结果
+提取*.emapper.annotations转化成.anno文件，即可用于做enricher注释。
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="kegg">
+<h2>2. KEGG富集分析<a class="headerlink" href="#kegg" title="永久链接至标题">¶</a></h2>
+<div class="section" id="keggg">
+<h3>2.1 模式物种的KEGGG富集分析<a class="headerlink" href="#keggg" title="永久链接至标题">¶</a></h3>
+<p>  首先在KEGG数据库查询是否已有基因组物种，例如：</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>###在线搜索：
+https://www.genome.jp/kegg/catalog/org_list.html  
+(Eukaryotes: 962    Bacteria: 8044    Archaea: 418)
+例如：水稻就是 osa，没有籼稻（Oryza sativa subsp. indica）
+osa	KGB	 Oryza sativa japonica (Japanese rice) 	RefSeq
+dosa    Oryza sativa japonica (Japanese rice) (RAPDB)	RAP-DB
+
+###离线搜索：
+library(clusterProfiler)
+search_kegg_organism(&#39;Eucalyptus&#39;, by=&#39;scientific_name&#39;)
+kegg_code   scientific_name 		common_name
+egr 		Eucalyptus grandis      rose
+</pre></div>
+</div>
+</div>
+<div class="section" id="id4">
+<h3>2.2 非模式物种的kegg富集分析<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h3>
+<p>  如果没有，参考”1.2 非模式物种的GO富集分析” 块内容。</p>
+</div>
+</div>
+<div class="section" id="id5">
+<h2>3. 脚本管理与处理示例<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id6">
+<h3>3.1 代码管理<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
+<p>  所有相关代码都已整理保存到git中：  git&#64;10.0.1.111:lzw/genecloud_enrichment.git</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>$ tree genecloud_enrichment
+genecloud_enrichment
+├── 1.0_go
+│   └── animal.deg_enrich.v3.3.r
+├── 2.0_kegg
+│   └── animal.deg_enrich.v3.3.r
+├── 3.0_gsea
+│   └── symbolTpm2gsea_gsea.wdl
+├── 4.0_sqlite2anno
+│   ├── func_kegg_info.py
+│   ├── kegg_list_organism.txt
+│   ├── org.rno.eg.db.sqlite
+│   ├── pathway_db
+│   │   ├── rno.json
+│   │   ├── rno_kegg_info.tsv
+│   │   ├── rno_link.txt
+│   │   ├── rno_list.txt
+│   │   └── rno_pathway_info.tsv
+│   ├── rno.gene_symbol.list
+│   ├── rno.go.anno
+│   ├── rno.kegg.anno
+│   ├── sqlite2anno.rno.R
+│   ├── step1_getPathDb.sh
+│   ├── step2_sqlite2anno.R
+│   └── work.sh
+├── 5.0_emapperAnnotations2anno
+│   ├── build_anno.py
+│   ├── mm19_dir
+│   │   ├── mm19.go.anno
+│   │   └── mm19.kegg.anno
+│   ├── out.emapper.annotations
+│   └── work.sh
+├── 6.0_goKeggTerm2gmt
+│   ├── creat_gsea_gmt.R
+│   ├── GO.rno.symbols.gmt
+│   ├── KEGG.rno.symbols.gmt
+│   └── work.sh
+├── 7.0_rnaPlatformAnnoTable
+│   ├── get_rnaPlatForm_annotation_table.R
+│   ├── rno_annotable.tsv
+│   └── work.sh
+├── 8.0_knownTermDatabase
+│   ├── go.term.csv
+│   ├── kegg_info_extract.py
+│   ├── kegg_list_organism.txt
+│   ├── kegg.term.csv
+│   ├── pathway.html
+│   └── work.sh
+├── git_submit.sh
+└── README.md
+</pre></div>
+</div>
+</div>
+<div class="section" id="id7">
+<h3>3.2 目录说明<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h3>
+<p>  git中总共包含8个目录，说明如下：</p>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>目录</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1.0_go</td>
+<td>存放GO注释示例脚本</td>
+</tr>
+<tr>
+<td>2.0_kegg</td>
+<td>存放KEGG注释示例脚本</td>
+</tr>
+<tr>
+<td>3.0_gsea</td>
+<td>存放GSEA富集分析示例脚本</td>
+</tr>
+<tr>
+<td>4.0_sqlite2anno</td>
+<td>对于已有orgdb的物种，可将.sqlite文件转成.anno文件</td>
+</tr>
+<tr>
+<td>5.0_emapperAnnotations2anno</td>
+<td>对于无orgdb物种，将emapper比对后的.annotation文件转成.anno文件</td>
+</tr>
+<tr>
+<td>6.0_goKeggTerm2gmt</td>
+<td>基于.sqlite或.anno提取通路基因集，用于做GSEA分析默认基因集输入</td>
+</tr>
+<tr>
+<td>7.0_rnaPlatformAnnoTable</td>
+<td>基于.anno或.sqlite提取最全的gene与通路表，提交RNA平台做gene注释</td>
+</tr>
+<tr>
+<td>8.0_knownTermDatabase</td>
+<td>GO2TERM和PATHWAY2TERM最全对应表下载与整理</td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="id8">
+<h3>3.3 示例说明<a class="headerlink" href="#id8" title="永久链接至标题">¶</a></h3>
+<p>  各处理目录下都存放了相关运行示例，其中补充了模块目的，处理环境，脚本运行示例，都已测试过，可正常运行。</p>
+<p>  4.0_sqlite2anno/work.sh</p>
+<p>  5.0_emapperAnnotations2anno/work.sh</p>
+<p>  6.0_goKeggTerm2gmt/work.sh</p>
+<p>  7.0_rnaPlatformAnnoTable/work.sh</p>
+<p>  8.0_knownTermDatabase/work.sh</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>##示例
+cat 7.0_rnaPlatformAnnoTable/work.sh
+
+######基于anno 或者sqlite注释文件 提取最全的gene与通路注释表，用于提交RNA平台做gene注释
+######深圳terminal: podman run -it -v /GeneCloud001/genecloud/DB/pubDB/ide/R:/opt/R/:ro  172.16.50.43/apseq/rstudio:latest /bin/bash
+
+species=&quot;rno&quot;
+sqlite=&quot;../4.0_sqlite2anno/org.rno.eg.db.sqlite&quot;
+genesymbol=&quot;../4.0_sqlite2anno/rno.gene_symbol.list&quot;
+keggdb=&quot;../4.0_sqlite2anno/pathway_db/rno_kegg_info.tsv&quot;
+
+Rscript get_rnaPlatForm_annotation_table.R \
+--species $species \
+--genesymbol $genesymbol \
+--orgdb $sqlite \
+--keggdb $keggdb 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="id9">
+<h2>4. 其它补充知识<a class="headerlink" href="#id9" title="永久链接至标题">¶</a></h2>
+<div class="section" id="go-term">
+<h3>4.1 GO term信息查询<a class="headerlink" href="#go-term" title="永久链接至标题">¶</a></h3>
+<p>  在GO官网使用的AmiGO2网站可查询GO ID和GO term信息，查询地址：https://amigo.geneontology.org/amigo/landing</p>
+</div>
+<div class="section" id="kegg-pathway">
+<h3>4.2 kegg pathway信息查询<a class="headerlink" href="#kegg-pathway" title="永久链接至标题">¶</a></h3>
+<p>  在KEGG Pathway中可查询，查询地址：https://www.kegg.jp/kegg/pathway.html</p>
+</div>
+<div class="section" id="go2term">
+<h3>4.3 GO2TERM最全对应关系表下载<a class="headerlink" href="#go2term" title="永久链接至标题">¶</a></h3>
+<p>  http://current.geneontology.org/ontology/go.obo</p>
+</div>
+<div class="section" id="id10">
+<h3>4.4 kegg 已知物种下载<a class="headerlink" href="#id10" title="永久链接至标题">¶</a></h3>
+<p>  wget https://rest.kegg.jp/list/organism -O kegg_list_organism.txt</p>
+</div>
+<div class="section" id="pathway2term">
+<h3>4.5 PATHWAY2TERM 最全对应关系表下载<a class="headerlink" href="#pathway2term" title="永久链接至标题">¶</a></h3>
+<p>  wget https://www.genome.jp/kegg/pathway.html</p>
+<div class="section" id="goenrichgo">
+<h4>4.6 GO富集分析命令enrichGO简介<a class="headerlink" href="#goenrichgo" title="永久链接至标题">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">enrichGO</span><span class="p">(</span>
+  <span class="n">gene</span><span class="p">,</span>
+  <span class="n">OrgDb</span><span class="p">,</span>
+  <span class="n">keyType</span> <span class="o">=</span> <span class="s2">&quot;ENTREZID&quot;</span><span class="p">,</span>
+  <span class="n">ont</span> <span class="o">=</span> <span class="s2">&quot;MF&quot;</span><span class="p">,</span>
+  <span class="n">pvalueCutoff</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span>
+  <span class="n">pAdjustMethod</span> <span class="o">=</span> <span class="s2">&quot;BH&quot;</span><span class="p">,</span>
+  <span class="n">universe</span><span class="p">,</span>
+  <span class="n">qvalueCutoff</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
+  <span class="n">minGSSize</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="n">maxGSSize</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+  <span class="n">readable</span> <span class="o">=</span> <span class="n">FALSE</span><span class="p">,</span>
+  <span class="n">pool</span> <span class="o">=</span> <span class="n">FALSE</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gene</td>
+<td>a vector of entrez gene id.</td>
+</tr>
+<tr>
+<td>OrgDb</td>
+<td>OrgDb</td>
+</tr>
+<tr>
+<td>keyType</td>
+<td>keytype of input gene</td>
+</tr>
+<tr>
+<td>ont</td>
+<td>One of "BP", "MF", and "CC" subontologies, or "ALL" for all three.</td>
+</tr>
+<tr>
+<td>pvalueCutoff</td>
+<td>adjusted pvalue cutoff on enrichment tests to report</td>
+</tr>
+<tr>
+<td>pAdjustMethod</td>
+<td>one of "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr","none"</td>
+</tr>
+<tr>
+<td>universe</td>
+<td>background genes. If missing, the all genes listed in the database (eg TERM2GENE table) will be used as background.</td>
+</tr>
+<tr>
+<td>qvalueCutoff</td>
+<td>qvalue cutoff on enrichment tests to report as significant. Tests mustpass i) pvalueCutoff on unadjusted pvalues, ii) pvalueCutoff on adjusted pvalues and iii) qvalueCutoff on qvalues to be reported.</td>
+</tr>
+<tr>
+<td>minGSSize</td>
+<td>minimal size of genes annotated by Ontology term for testing.</td>
+</tr>
+<tr>
+<td>maxGSSize</td>
+<td>maximal size of genes annotated for testing</td>
+</tr>
+<tr>
+<td>readable</td>
+<td>whether mapping gene ID to gene Name</td>
+</tr>
+<tr>
+<td>pool</td>
+<td>If ont='ALL', whether pool 3 GO sub-ontologies</td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="keggenrichkegg">
+<h4>4.7 KEGG富集分析命令enrichKEGG简介<a class="headerlink" href="#keggenrichkegg" title="永久链接至标题">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">enrichKEGG</span><span class="p">(</span>
+  <span class="n">gene</span><span class="p">,</span>
+  <span class="n">organism</span> <span class="o">=</span> <span class="s2">&quot;hsa&quot;</span><span class="p">,</span>
+  <span class="n">keyType</span> <span class="o">=</span> <span class="s2">&quot;kegg&quot;</span><span class="p">,</span>
+  <span class="n">pvalueCutoff</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span>
+  <span class="n">pAdjustMethod</span> <span class="o">=</span> <span class="s2">&quot;BH&quot;</span><span class="p">,</span>
+  <span class="n">universe</span><span class="p">,</span>
+  <span class="n">minGSSize</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="n">maxGSSize</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+  <span class="n">qvalueCutoff</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
+  <span class="n">use_internal_data</span> <span class="o">=</span> <span class="n">FALSE</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gene</td>
+<td>a vector of entrez gene id.</td>
+</tr>
+<tr>
+<td>organism</td>
+<td>supported organism listed in 'https://www.genome.jp/kegg/catalog/org_list.html'</td>
+</tr>
+<tr>
+<td>keyType</td>
+<td>one of "kegg", 'ncbi-geneid', 'ncib-proteinid' and 'uniprot'</td>
+</tr>
+<tr>
+<td>pvalueCutoff</td>
+<td>adjusted pvalue cutoff on enrichment tests to report</td>
+</tr>
+<tr>
+<td>pAdjustMethod</td>
+<td>one of "holm", "hochberg", "hommel", "bonferroni", "BH", "BY","fdr", "none"</td>
+</tr>
+<tr>
+<td>universe</td>
+<td>background genes. If missing, the all genes listed in the database (eg TERM2GENE table) will be used as background.</td>
+</tr>
+<tr>
+<td>minGSSize</td>
+<td>minimal size of genes annotated by Ontology term for testing.</td>
+</tr>
+<tr>
+<td>maxGSSize</td>
+<td>maximal size of genes annotated for testing</td>
+</tr>
+<tr>
+<td>qvalueCutoff</td>
+<td>qvalue cutoff on enrichment tests to report as significant. Tests must pass i) pvalueCutoff on unadjusted pvalues, ii) pvalueCutoff on adjusted pvalues and iii) qvalueCutoff on qvalues to be reported.</td>
+</tr>
+<tr>
+<td>use_internal_data</td>
+<td>logical, use KEGG.db or latest online KEGG data</td>
+</tr>
+</tbody>
+</table></div>
+<div class="section" id="enricher">
+<h4>4.8 富集分析命令enricher简介<a class="headerlink" href="#enricher" title="永久链接至标题">¶</a></h4>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">enricher</span><span class="p">(</span>
+  <span class="n">gene</span><span class="p">,</span>
+  <span class="n">pvalueCutoff</span> <span class="o">=</span> <span class="mf">0.05</span><span class="p">,</span>
+  <span class="n">pAdjustMethod</span> <span class="o">=</span> <span class="s2">&quot;BH&quot;</span><span class="p">,</span>
+  <span class="n">universe</span> <span class="o">=</span> <span class="n">NULL</span><span class="p">,</span>
+  <span class="n">minGSSize</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span>
+  <span class="n">maxGSSize</span> <span class="o">=</span> <span class="mi">500</span><span class="p">,</span>
+  <span class="n">qvalueCutoff</span> <span class="o">=</span> <span class="mf">0.2</span><span class="p">,</span>
+  <span class="n">gson</span> <span class="o">=</span> <span class="n">NULL</span><span class="p">,</span>
+  <span class="n">TERM2GENE</span><span class="p">,</span>
+  <span class="n">TERM2NAME</span> <span class="o">=</span> <span class="n">NA</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<table border="1" class="docutils">
+<thead>
+<tr>
+<th>参数</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>gene</td>
+<td>a vector of gene id.</td>
+</tr>
+<tr>
+<td>pvalueCutoff</td>
+<td>adjusted pvalue cutoff on enrichment tests to report</td>
+</tr>
+<tr>
+<td>pAdjustMethod</td>
+<td>one of "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr","none"</td>
+</tr>
+<tr>
+<td>universe</td>
+<td>background genes. If missing, the all genes listed in the database (eg TERM2GENE table) will be used as background.</td>
+</tr>
+<tr>
+<td>minGSSize</td>
+<td>minimal size of genes annotated for testing</td>
+</tr>
+<tr>
+<td>maxGSSize</td>
+<td>maximal size of genes annotated for testing</td>
+</tr>
+<tr>
+<td>qvalueCutoff</td>
+<td>qvalue cutoff on enrichment tests to report as significant. Tests must pass i) pvalueCutoff on unadjusted pvalues, ii) pvalueCutoff on adjusted pvalues and iii) qvalueCutoff on qvalues to be reported.</td>
+</tr>
+<tr>
+<td>gson</td>
+<td>a GSON object, if not NULL, use it as annotation data</td>
+</tr>
+<tr>
+<td>TERM2GENE</td>
+<td>user input annotation of TERM TO GENE mapping, a data.frame of 2 column with term and gene. Only used when gson is NULL.</td>
+</tr>
+<tr>
+<td>TERM2NAME</td>
+<td>user input of TERM TO NAME mapping, a data.frame of 2 column with term and name. Only used when gson is NULL.</td>
+</tr>
+</tbody>
+</table><p>参考文档1：https://zhuanlan.zhihu.com/p/536082841</p>
+<p>参考文档2：https://www.jianshu.com/p/f2e4dbaae719</p>
+</div>
+</div>
+</div>
 </div>
 
 

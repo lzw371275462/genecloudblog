@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>1.2 RNAPlatform &mdash; genecloudblog v0.0.1 文档</title>
+  <title>介绍 &mdash; genecloudblog v0.0.1 文档</title>
   
 
   
@@ -82,7 +82,19 @@
 <ul class="current">
 <li class="toctree-l1 current"><a class="reference internal" href="../index.html">1. 多组学平台说明文档</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="../SingleCellPlatform/contents.html">1.1 SingleCellPlatform</a></li>
-<li class="toctree-l2 current"><a class="current reference internal" href="#">1.2 RNAPlatform</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">介绍</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dash">dash 开发</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">项目目录结构</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">具体开发</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">dash 调试</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#id5">一些排查问题的路径</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id6">测试环境</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#vscode">vscode的使用</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">具体dash开发一条龙步骤</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="../../吉云流程补充文档/index.html">2. 吉云流程补充文档</a></li>
@@ -137,7 +149,7 @@
         
           <li><a href="../index.html">1. 多组学平台说明文档</a> &raquo;</li>
         
-      <li>1.2 RNAPlatform</li>
+      <li>介绍</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -156,9 +168,132 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="rnaplatform">
-<h1>1.2 RNAPlatform<a class="headerlink" href="#rnaplatform" title="永久链接至标题">¶</a></h1>
-<p>夜来风雨声，花落知多少。</p>
+  <div class="section" id="id1">
+<h1>介绍<a class="headerlink" href="#id1" title="永久链接至标题">¶</a></h1>
+<p>特别说明：</p>
+<blockquote>
+<div>dash 的开发只封装了一些 提交任务 api 接口的功能，没有将所有功能进行深度的封装（过度的封装导致需要暴露过多参数，兼容过多情况，文档不详细，造成不必要的学习以及开发困扰），但是RNAseq平台的大部分功能都可以在 GSEA模块找到示例。</div></blockquote>
+</div>
+<div class="section" id="dash">
+<h1>dash 开发<a class="headerlink" href="#dash" title="永久链接至标题">¶</a></h1>
+<p>dash 项目开发仓库地址：<a class="reference external" href="http://10.0.1.111:9527/geneplus-dash/dash_rnaseq">http://10.0.1.111:9527/geneplus-dash/dash_rnaseq</a></p>
+</div>
+<div class="section" id="id2">
+<h1>项目目录结构<a class="headerlink" href="#id2" title="永久链接至标题">¶</a></h1>
+<img alt="../../_images/image1.png" src="../../_images/image1.png" />
+<p><strong>dash_rnaseq</strong>
+目录下包含一些比较通用的函数。
+<strong>RNAseq_app</strong>
+目录下则是各个模块的应用程序.</p>
+</div>
+<div class="section" id="id3">
+<h1>具体开发<a class="headerlink" href="#id3" title="永久链接至标题">¶</a></h1>
+<div class="line-block">
+<div class="line">1. 目前比较成熟的demo 是GSEA模块，可以拷贝这个模块的目录作为自己开发的基础。先尝试自己理解里面的代码逻辑。</div>
+<div class="line"><br /></div>
+<div class="line">2. 页面布局我们就不赘述了，就按GSEA的代码进行修改。</div>
+<div class="line"><br /></div>
+<div class="line">3. 由于分析参数，绘图参数等我们都需要在后续打开时进行恢复，所以选项这些我们一般放在回调中更新</div>
+<div class="line"><br /></div>
+</div>
+<img alt="../../_images/image2.png" src="../../_images/image2.png" />
+<div class="line-block">
+<div class="line">具体实现可以参考上面代码，上面的代码只会在页面刚加载的时候运行一遍。</div>
+<div class="line"><br /></div>
+<div class="line"><strong>get_my_config</strong>
+可以在初始化的时候获取到每个模块配置文件（config.yaml）的内容。</div>
+<div class="line"><br /></div>
+<div class="line">config.yaml的内容一般如下：</div>
+</div>
+<dl class="docutils">
+<dt>&lt;pre&gt;&lt;code&gt;    | input_dir: 项目的输入文件目录，目录下包含三个文件，参考 RNAseq_app/input_demo目录</dt>
+<dd><div class="first last line-block">
+<div class="line"><br /></div>
+<div class="line">task_output_dir: 任务结果的输出目录，这个目录会存放你的分析参数，绘图参数，结果文件，用于下次重新进入此任务时页面可以重新回原</div>
+<div class="line"><br /></div>
+<div class="line">task_input_dir: 模块依赖其他模块的输入目录</div>
+<div class="line"><br /></div>
+<div class="line">referenceGene: 物种等信息</div>
+</div>
+</dd>
+</dl>
+<p>&lt;/code&gt;&lt;/pre&gt;</p>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line">4. 绘图参数的回原，参考下面代码块。</div>
+<div class="line"><br /></div>
+</div>
+<img alt="../../_images/image3.png" src="../../_images/image3.png" />
+<img alt="../../_images/image4.png" src="../../_images/image4.png" />
+<p>绘图参数界面的UI实现参考
+<strong>accordion_theme</strong>
+函数。
+对应的回调则参考
+<strong>callback_theme</strong>
+函数。</p>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line">5. 分析模块</div>
+<div class="line"><br /></div>
+</div>
+<img alt="../../_images/image5.png" src="../../_images/image5.png" />
+<div class="line-block">
+<div class="line">分析模块基本上只要参考上面的这个代码块，修改下分析代码就可以了。</div>
+</div>
+<div class="line-block">
+<div class="line">第一个Output主要用于错误时输出错误信息到页面上。第二个Output用于保存任务id,第三个Output保存配置文件的信息。</div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+<div class="line">6. 表格</div>
+</div>
+<p>表格没什么好讲的，我们使用dash aggrid进行开发，熟悉这个表格的使用就可以了。其他代码块复制粘贴即可</p>
+</div>
+<div class="section" id="id4">
+<h1>dash 调试<a class="headerlink" href="#id4" title="永久链接至标题">¶</a></h1>
+<blockquote>
+<div>注：开发过程中，先参考GSEA模块的get_my_config函数，配置好自己本地所需要的开发测试数据。</div></blockquote>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="section" id="id5">
+<h2>一些排查问题的路径<a class="headerlink" href="#id5" title="永久链接至标题">¶</a></h2>
+<div class="section" id="id6">
+<h3>测试环境<a class="headerlink" href="#id6" title="永久链接至标题">¶</a></h3>
+<div class="line-block">
+<div class="line">1. 配置文件路径（projectID，moduleID，taskID 可以从页面连接中获取 ）</div>
+</div>
+<blockquote>
+<div><code class="docutils literal notranslate"><span class="pre">/GeneCloud001/genecloud/server/jycloud/interactive_analysis/deploy_app/app_input/{projectID}/{moduleID}/{taskID}/config.yaml</span></code></div></blockquote>
+</div>
+</div>
+</div>
+<div class="section" id="vscode">
+<h1>vscode的使用<a class="headerlink" href="#vscode" title="永久链接至标题">¶</a></h1>
+<blockquote>
+<div>注： 目前并没有一个好的开发环境，让大家直接使用，暂时只能自己部署自己的开发环境。</div></blockquote>
+</div>
+<div class="section" id="id7">
+<h1>具体dash开发一条龙步骤<a class="headerlink" href="#id7" title="永久链接至标题">¶</a></h1>
+<p>1.将dash项目开发所需要的git下载至进行开发的目录下，尽量路径下不要有中文名称</p>
+<blockquote>
+<div>dash 项目开发仓库地址：<a class="reference external" href="http://10.0.1.111:9527/geneplus-dash/dash_rnaseq">http://10.0.1.111:9527/geneplus-dash/dash_rnaseq</a></div></blockquote>
+<p>2.将目录移动至RNAseq_app目录下，并创建以自己模块名称命名的文件夹</p>
+<img alt="../../_images/image6.png" src="../../_images/image6.png" />
+<p>3.可以将现有的模块copy过去，再在现有模块的大框加下面进行修改，按照需求实现你自己模块的功能。</p>
+<blockquote>
+<div>建议将assets文件、app.py文件copy过去后进行开发，这两个比较重要</div></blockquote>
+<p>4.用vscode打开app.py即可对dash进行开发</p>
+<img alt="../../_images/image7.png" src="../../_images/image7.png" />
+<p>5.按住ctrl+`, 即可打开terminal以及后台。</p>
+<img alt="../../_images/image8.png" src="../../_images/image8.png" />
+<p>点击右上角的三角运行按钮，运行成功后terminal会弹出渲染构建过后的dash界面的网址，打开网址就可以看到界面</p>
+<img alt="../../_images/image9.png" src="../../_images/image9.png" />
+<p>6.调试过程中修改了app.py，ctrl+s保存后刷新dash生成的界面即可查看修改过后的渲染结果</p>
+<img alt="../../_images/image10.png" src="../../_images/image10.png" />
+<p>7.想要在调试过程中查看中间变量和打断点可以查看vscode的断点调试教程</p>
+<blockquote>
+<div><a class="reference external" href="https://juejin.cn/post/7080135520902184997">https://juejin.cn/post/7080135520902184997</a></div></blockquote>
 </div>
 
 
